@@ -40,7 +40,6 @@ public class UserService {
                 .build();
 
         User savedUser = userRepository.save(user);
-
         return new UserLoginResponse(savedUser.getId());
     }
 

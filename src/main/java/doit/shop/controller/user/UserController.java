@@ -36,13 +36,11 @@ public class UserController implements UserControllerDocs {
 
     @PostMapping("/login")
     public UserLoginResponse login(@RequestBody UserLoginRequest userLoginRequest) {
-        userService.login(userLoginRequest);
-        return null;
+        return userService.login(userLoginRequest);
     }
 
     @GetMapping("/{userId}")
     public UserInfoResponse getUserInfo(@PathVariable Long userId) {
-        userService.getUserInfo(userId);
-        return null;
+        return userService.getUserInfo(userId);
     }
 }
