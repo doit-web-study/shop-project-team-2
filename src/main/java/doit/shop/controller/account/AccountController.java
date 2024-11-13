@@ -31,22 +31,22 @@ public class AccountController implements AccountControllerDocs {
 
     @GetMapping("/{accountId}")
     public AccountInfoResponse getAccountInfo(@PathVariable Long accountId) {
-        return null;
+        return accountService.getAccountInfo(accountId);
     }
 
     @PutMapping("/{accountId}")
     public AccountInfoResponse updateAccountInfo(@PathVariable Long accountId,
                                                  @RequestBody AccountUpdateRequest request) {
-        return null;
+        return accountService.updateAccountInfo(accountId, request);
     }
 
     @PostMapping("/{accountId}/deposit")
     public void depositAccount(@PathVariable Long accountId, @RequestParam Integer amount) {
-
+        accountService.depositAccount(accountId, amount);
     }
 
     @PostMapping("/{accountId}/withdraw")
     public void withdrawAccount(@PathVariable Long accountId, @RequestParam Integer amount) {
-
+        accountService.withdrawAccount(accountId, amount);
     }
 }
