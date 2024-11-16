@@ -5,7 +5,7 @@ import doit.shop.controller.account.dto.AccountIdResponse;
 import doit.shop.controller.account.dto.AccountInfoResponse;
 import doit.shop.controller.account.dto.AccountRegisterRequest;
 import doit.shop.controller.account.dto.AccountUpdateRequest;
-import doit.shop.controller.account.service.AccountService;
+import doit.shop.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/accounts")
 public class AccountController implements AccountControllerDocs {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @PostMapping
     public AccountIdResponse registerAccount(@RequestBody AccountRegisterRequest request) {

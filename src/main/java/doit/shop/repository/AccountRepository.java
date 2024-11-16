@@ -1,4 +1,4 @@
-package doit.shop.controller.account.domain;
+package doit.shop.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

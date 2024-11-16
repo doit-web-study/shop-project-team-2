@@ -1,10 +1,10 @@
 package doit.shop.repository.account;
 
-import doit.shop.controller.account.domain.Account;
-import doit.shop.controller.account.domain.AccountRepository;
+import doit.shop.repository.Account;
+import doit.shop.repository.AccountRepository;
 import doit.shop.controller.account.dto.AccountIdResponse;
 import doit.shop.controller.account.dto.AccountRegisterRequest;
-import doit.shop.controller.account.service.AccountService;
+import doit.shop.service.AccountService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,12 +40,7 @@ public class AccountServiceTest {
     @Test
     @DisplayName("Account Deposit 테스트")
     void depositAccountTest() {
-        Account account = Account.builder()
-                .accountNumber("1111-1111-1111")
-                .accountName("강범서의 통장")
-                .accountBankName("국민은행")
-                .balance(10000000)
-                .build();
+        Account account = getAccount();
 
         accountRepository.save(account);
 
@@ -55,15 +50,20 @@ public class AccountServiceTest {
         Assertions.assertThat(updatedAccount.getId()).isEqualTo(30000000);
     }
 
-    @Test
-    @DisplayName("Account Withdrawal 테스트")
-    void withdrawAccountTest() {
+    private static Account getAccount() {
         Account account = Account.builder()
                 .accountNumber("1111-1111-1111")
                 .accountName("강범서의 통장")
                 .accountBankName("국민은행")
                 .balance(10000000)
                 .build();
+        return account;
+    }
+
+    @Test
+    @DisplayName("Account Withdrawal 테스트")
+    void withdrawAccountTest() {
+        Account account = getAccount();
 
         accountRepository.save(account);
 

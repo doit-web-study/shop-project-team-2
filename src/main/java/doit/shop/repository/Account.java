@@ -1,4 +1,4 @@
-package doit.shop.controller.account.domain;
+package doit.shop.repository;
 
 import jakarta.persistence.*;
 import lombok.Builder;

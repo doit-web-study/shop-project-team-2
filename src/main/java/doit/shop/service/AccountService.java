@@ -1,7 +1,7 @@
-package doit.shop.controller.account.service;
+package doit.shop.service;
 
-import doit.shop.controller.account.domain.Account;
-import doit.shop.controller.account.domain.AccountRepository;
+import doit.shop.repository.Account;
+import doit.shop.repository.AccountRepository;
 import doit.shop.controller.account.dto.AccountIdResponse;
 import doit.shop.controller.account.dto.AccountInfoResponse;
 import doit.shop.controller.account.dto.AccountRegisterRequest;
@@ -14,14 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 @RequiredArgsConstructor
 @Service
 public class AccountService {
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     @Transactional
     public AccountIdResponse registerAccount(AccountRegisterRequest accountRegisterRequest) {
+        return getAccountIdResponse(accountRegisterRequest);
+    }
+
+    private AccountIdResponse getAccountIdResponse(AccountRegisterRequest accountRegisterRequest) {
         Account account = Account.builder()
                 .accountName(accountRegisterRequest.accountName())
                 .accountNumber(accountRegisterRequest.accountNumber())
@@ -30,7 +35,7 @@ public class AccountService {
                 .build();
 
         Account saved = accountRepository.save(account);
-        return new AccountIdResponse(saved.getId());
+        return AccountIdResponse.from(saved);
     }
 
     public List<AccountInfoResponse> getAccountList() {
@@ -38,14 +43,7 @@ public class AccountService {
         List<AccountInfoResponse> accountInfoResponses = new ArrayList<>();
 
         for(Account account: accounts) {
-            AccountInfoResponse response = new AccountInfoResponse(
-                    account.getId(),
-                    account.getAccountName(),
-                    account.getAccountNumber(),
-                    account.getAccountBankName(),
-                    account.getBalance()
-            );
-            accountInfoResponses.add(response);
+            accountInfoResponses.add(AccountInfoResponse.from(account));
         }
         return accountInfoResponses;
     }
@@ -58,14 +56,7 @@ public class AccountService {
         } else {
             throw new RuntimeException("Account not found!");
         }
-
-        return new AccountInfoResponse(
-                account.getId(),
-                account.getAccountName(),
-                account.getAccountNumber(),
-                account.getAccountBankName(),
-                account.getBalance()
-        );
+        return AccountInfoResponse.from(account);
     }
 
     @Transactional
@@ -77,17 +68,10 @@ public class AccountService {
         } else {
             throw new RuntimeException("Account not found!");
         }
-
         account.setAccountName(account.getAccountName());
         Account updatedAccount = accountRepository.save(account);
 
-        return new AccountInfoResponse(
-                updatedAccount.getId(),
-                updatedAccount.getAccountName(),
-                updatedAccount.getAccountNumber(),
-                updatedAccount.getAccountBankName(),
-                updatedAccount.getBalance()
-        );
+        return AccountInfoResponse.from(updatedAccount);
     }
 
     @Transactional
