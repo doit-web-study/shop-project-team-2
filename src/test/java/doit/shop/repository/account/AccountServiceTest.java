@@ -28,7 +28,7 @@ public class AccountServiceTest {
     @DisplayName("Account 등록 테스트")
     void registerAccountTest() {
         AccountRegisterRequest accountRegisterRequest = new AccountRegisterRequest("강범서의 통장", "1111-1111-1111", "국민은행");
-        AccountIdResponse accountIdResponse = accountService.registerAccount(accountRegisterRequest);
+        AccountIdResponse accountIdResponse = accountService.registerAccount(accountRegisterRequest, 1);
 
         Optional<Account> savedAccount = accountRepository.findById(accountIdResponse.accountId());
         Assertions.assertThat(savedAccount).isPresent();
@@ -56,6 +56,7 @@ public class AccountServiceTest {
                 .accountName("강범서의 통장")
                 .accountBankName("국민은행")
                 .balance(10000000)
+                .userId(1L)
                 .build();
         return account;
     }

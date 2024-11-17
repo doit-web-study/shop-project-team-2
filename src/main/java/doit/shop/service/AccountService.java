@@ -22,29 +22,37 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     @Transactional
-    public AccountIdResponse registerAccount(AccountRegisterRequest accountRegisterRequest) {
+    public AccountIdResponse registerAccount(AccountRegisterRequest accountRegisterRequest, long userId) {
+        if (accountRepository.findByUserId(userId) != null) {
+            throw new RuntimeException("User already has an account!");
+        }
         return getAccountIdResponse(accountRegisterRequest);
     }
 
     private AccountIdResponse getAccountIdResponse(AccountRegisterRequest accountRegisterRequest) {
-        Account account = Account.builder()
-                .accountName(accountRegisterRequest.accountName())
-                .accountNumber(accountRegisterRequest.accountNumber())
-                .accountBankName(accountRegisterRequest.accountBankName())
-                .balance(0)
-                .build();
+        Account account = getAccount(accountRegisterRequest);
 
         Account saved = accountRepository.save(account);
         return AccountIdResponse.from(saved);
     }
 
-    public List<AccountInfoResponse> getAccountList() {
-        List<Account> accounts = accountRepository.findAll();
+    private static Account getAccount(AccountRegisterRequest accountRegisterRequest) {
+        return Account.builder()
+                .accountName(accountRegisterRequest.accountName())
+                .accountNumber(accountRegisterRequest.accountNumber())
+                .accountBankName(accountRegisterRequest.accountBankName())
+                .balance(0)
+                .build();
+    }
+
+    public List<AccountInfoResponse> getAccountList(Long userId) {
         List<AccountInfoResponse> accountInfoResponses = new ArrayList<>();
 
-        for(Account account: accounts) {
-            accountInfoResponses.add(AccountInfoResponse.from(account));
+        Account account = accountRepository.findByUserId(userId);
+        if (account == null) {
+            throw new RuntimeException("Account not found for user.");
         }
+        accountInfoResponses.add(AccountInfoResponse.from(account));
         return accountInfoResponses;
     }
 
@@ -68,7 +76,7 @@ public class AccountService {
         } else {
             throw new RuntimeException("Account not found!");
         }
-        account.setAccountName(account.getAccountName());
+        account.setAccountName(request.accountName());
         Account updatedAccount = accountRepository.save(account);
 
         return AccountInfoResponse.from(updatedAccount);

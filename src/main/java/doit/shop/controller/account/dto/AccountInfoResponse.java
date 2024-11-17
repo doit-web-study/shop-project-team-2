@@ -27,7 +27,7 @@ public record AccountInfoResponse (
                         .accountId(account.getId())
                         .accountName(account.getAccountName())
                         .accountNumber(account.getAccountNumber())
-                        .accountBankName(account.getAccountName())
+                        .accountBankName(account.getAccountBankName())
                         .accountBalance(account.getBalance())
                         .build();
         }

@@ -19,14 +19,19 @@ public class AccountController implements AccountControllerDocs {
     private final AccountService accountService;
 
     @PostMapping
-    public AccountIdResponse registerAccount(@RequestBody AccountRegisterRequest request) {
-        return accountService.registerAccount(request);
+    public AccountIdResponse registerAccount(@RequestBody AccountRegisterRequest request, @RequestParam Long userId) {
+        return accountService.registerAccount(request, userId);
     }
 
     @GetMapping
-    public ListWrapper<AccountInfoResponse> getAccountList() {
-        List<AccountInfoResponse> accountList =  accountService.getAccountList();
+    public ListWrapper<AccountInfoResponse> getAccountList(@RequestParam Long userId) {
+        List<AccountInfoResponse> accountList =  accountService.getAccountList(userId);
         return new ListWrapper<>(accountList);
+    }
+
+    @Override
+    public ListWrapper<AccountInfoResponse> getAccountList() {
+        return null;
     }
 
     @GetMapping("/{accountId}")
