@@ -5,7 +5,9 @@ import doit.shop.controller.account.dto.AccountIdResponse;
 import doit.shop.controller.account.dto.AccountInfoResponse;
 import doit.shop.controller.account.dto.AccountRegisterRequest;
 import doit.shop.controller.account.dto.AccountUpdateRequest;
+
 import doit.shop.service.AccountService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,7 @@ public class AccountController implements AccountControllerDocs {
     @PostMapping
     public AccountIdResponse registerAccount(@RequestBody AccountRegisterRequest request, @RequestParam Long userId) {
         return accountService.registerAccount(request, userId);
+
     }
 
     @GetMapping
@@ -31,7 +34,8 @@ public class AccountController implements AccountControllerDocs {
 
     @Override
     public ListWrapper<AccountInfoResponse> getAccountList() {
-        return null;
+        List<AccountInfoResponse> accountList =  accountService.getAccountList();
+        return new ListWrapper<>(accountList);
     }
 
     @GetMapping("/{accountId}")
