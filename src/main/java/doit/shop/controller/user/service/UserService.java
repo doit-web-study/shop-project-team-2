@@ -58,6 +58,6 @@ public class UserService {
             throw new IllegalArgumentException("일치하는 회원이 없습니다.");
         }
 
-        return new UserInfoResponse(user.get().getId(), user.get().getUserLoginId(), user.get().getUserPassword(), user.get().getUserNickName(), user.get().getUserPhoneNumber());
+        return UserInfoResponse.from(user.get());
     }
 }
