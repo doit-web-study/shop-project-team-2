@@ -25,13 +25,8 @@ public class AccountController implements AccountControllerDocs {
 
     @GetMapping
     public ListWrapper<AccountInfoResponse> getAccountList(@RequestParam Long userId) {
-        List<AccountInfoResponse> accountList =  accountService.getAccountList(userId);
+        List<AccountInfoResponse> accountList = List.of(accountService.getAccountList(userId));
         return new ListWrapper<>(accountList);
-    }
-
-    @Override
-    public ListWrapper<AccountInfoResponse> getAccountList() {
-        return null;
     }
 
     @GetMapping("/{accountId}")
