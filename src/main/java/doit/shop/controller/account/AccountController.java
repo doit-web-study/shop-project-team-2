@@ -5,7 +5,9 @@ import doit.shop.controller.account.dto.AccountIdResponse;
 import doit.shop.controller.account.dto.AccountInfoResponse;
 import doit.shop.controller.account.dto.AccountRegisterRequest;
 import doit.shop.controller.account.dto.AccountUpdateRequest;
-import doit.shop.controller.account.service.AccountService;
+
+import doit.shop.service.AccountService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +18,21 @@ import java.util.List;
 @RequestMapping("/api/accounts")
 public class AccountController implements AccountControllerDocs {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @PostMapping
-    public AccountIdResponse registerAccount(@RequestBody AccountRegisterRequest request) {
-        return accountService.registerAccount(request);
+    public AccountIdResponse registerAccount(@RequestBody AccountRegisterRequest request, @RequestParam Long userId) {
+        return accountService.registerAccount(request, userId);
+
     }
 
     @GetMapping
+    public ListWrapper<AccountInfoResponse> getAccountList(@RequestParam Long userId) {
+        List<AccountInfoResponse> accountList =  accountService.getAccountList(userId);
+        return new ListWrapper<>(accountList);
+    }
+
+    @Override
     public ListWrapper<AccountInfoResponse> getAccountList() {
         List<AccountInfoResponse> accountList =  accountService.getAccountList();
         return new ListWrapper<>(accountList);

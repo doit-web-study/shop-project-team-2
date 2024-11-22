@@ -18,7 +18,9 @@ public interface AccountControllerDocs {
     @ApiResponse(responseCode = "400", description = "신규 계좌 등록 실패")
     AccountIdResponse registerAccount(
             @Schema(description = "계좌 등록 정보", implementation = AccountRegisterRequest.class)
-            AccountRegisterRequest accountRegisterRequest
+            AccountRegisterRequest accountRegisterRequest,
+            @Schema(description = "사용자 아이디 정보", example = "1")
+            Long userId
     );
 
     @Operation(summary = "본인 계좌 리스트 정보 조회", description = "본인 계좌 정보를 리스트의 형태로 조회한다.")
