@@ -1,7 +1,7 @@
-package doit.shop.service;
+package doit.shop.controller.account.service;
 
-import doit.shop.repository.Account;
-import doit.shop.repository.AccountRepository;
+import doit.shop.controller.account.domain.Account;
+import doit.shop.controller.account.domain.AccountRepository;
 import doit.shop.controller.account.dto.AccountIdResponse;
 import doit.shop.controller.account.dto.AccountInfoResponse;
 import doit.shop.controller.account.dto.AccountRegisterRequest;
@@ -14,45 +14,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @RequiredArgsConstructor
 @Service
 public class AccountService {
 
-    private final AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Transactional
-    public AccountIdResponse registerAccount(AccountRegisterRequest accountRegisterRequest, long userId) {
-        if (accountRepository.findByUserId(userId) != null) {
-            throw new RuntimeException("User already has an account!");
-        }
-        return getAccountIdResponse(accountRegisterRequest);
-    }
-
-    private AccountIdResponse getAccountIdResponse(AccountRegisterRequest accountRegisterRequest) {
-        Account account = getAccount(accountRegisterRequest);
-
-        Account saved = accountRepository.save(account);
-        return AccountIdResponse.from(saved);
-    }
-
-    private static Account getAccount(AccountRegisterRequest accountRegisterRequest) {
-        return Account.builder()
+    public AccountIdResponse registerAccount(AccountRegisterRequest accountRegisterRequest) {
+        Account account = Account.builder()
                 .accountName(accountRegisterRequest.accountName())
                 .accountNumber(accountRegisterRequest.accountNumber())
                 .accountBankName(accountRegisterRequest.accountBankName())
                 .balance(0)
                 .build();
+
+        Account saved = accountRepository.save(account);
+        return new AccountIdResponse(saved.getId());
     }
 
-    public List<AccountInfoResponse> getAccountList(Long userId) {
+    public List<AccountInfoResponse> getAccountList() {
+        List<Account> accounts = accountRepository.findAll();
         List<AccountInfoResponse> accountInfoResponses = new ArrayList<>();
 
-        Account account = accountRepository.findByUserId(userId);
-        if (account == null) {
-            throw new RuntimeException("Account not found for user.");
+        for(Account account: accounts) {
+            AccountInfoResponse response = new AccountInfoResponse(
+                    account.getId(),
+                    account.getAccountName(),
+                    account.getAccountNumber(),
+                    account.getAccountBankName(),
+                    account.getBalance()
+            );
+            accountInfoResponses.add(response);
         }
-        accountInfoResponses.add(AccountInfoResponse.from(account));
         return accountInfoResponses;
     }
 
@@ -64,7 +58,14 @@ public class AccountService {
         } else {
             throw new RuntimeException("Account not found!");
         }
-        return AccountInfoResponse.from(account);
+
+        return new AccountInfoResponse(
+                account.getId(),
+                account.getAccountName(),
+                account.getAccountNumber(),
+                account.getAccountBankName(),
+                account.getBalance()
+        );
     }
 
     @Transactional
@@ -76,10 +77,17 @@ public class AccountService {
         } else {
             throw new RuntimeException("Account not found!");
         }
-        account.setAccountName(request.accountName());
+
+        account.setAccountName(account.getAccountName());
         Account updatedAccount = accountRepository.save(account);
 
-        return AccountInfoResponse.from(updatedAccount);
+        return new AccountInfoResponse(
+                updatedAccount.getId(),
+                updatedAccount.getAccountName(),
+                updatedAccount.getAccountNumber(),
+                updatedAccount.getAccountBankName(),
+                updatedAccount.getBalance()
+        );
     }
 
     @Transactional
