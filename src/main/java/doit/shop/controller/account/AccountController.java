@@ -23,18 +23,11 @@ public class AccountController implements AccountControllerDocs {
     @PostMapping
     public AccountIdResponse registerAccount(@RequestBody AccountRegisterRequest request, @RequestParam Long userId) {
         return accountService.registerAccount(request, userId);
-
     }
 
     @GetMapping
     public ListWrapper<AccountInfoResponse> getAccountList(@RequestParam Long userId) {
-        List<AccountInfoResponse> accountList =  accountService.getAccountList(userId);
-        return new ListWrapper<>(accountList);
-    }
-
-    @Override
-    public ListWrapper<AccountInfoResponse> getAccountList() {
-        List<AccountInfoResponse> accountList =  accountService.getAccountList();
+        List<AccountInfoResponse> accountList = List.of(accountService.getAccountList(userId));
         return new ListWrapper<>(accountList);
     }
 
@@ -59,3 +52,4 @@ public class AccountController implements AccountControllerDocs {
         accountService.withdrawAccount(accountId, amount);
     }
 }
+
