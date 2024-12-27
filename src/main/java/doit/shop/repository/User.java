@@ -1,6 +1,7 @@
 package doit.shop.repository;
 
 
+import doit.shop.controller.user.dto.UserSignUpRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,5 +30,14 @@ public class User {
         this.userPhoneNumber = userPhoneNumber;
     }
 
+    public static User from (UserSignUpRequest userSignUpRequest){
+        User user = User.builder()
+                .userName(userSignUpRequest.userName())
+                .userLoginId(userSignUpRequest.userLoginId())
+                .userPassword(userSignUpRequest.userPassword())
+                .userNickName(userSignUpRequest.userNickName())
+                .userPhoneNumber(userSignUpRequest.userPhoneNumber())
+                .build();
+    }
 }
 

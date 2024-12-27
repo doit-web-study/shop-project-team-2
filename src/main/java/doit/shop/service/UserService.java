@@ -29,16 +29,10 @@ public class UserService {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
 
-        User user = User.builder()
-                .userName(userSignUpRequest.userName())
-                .userLoginId(userSignUpRequest.userLoginId())
-                .userPassword(userSignUpRequest.userPassword())
-                .userNickName(userSignUpRequest.userNickName())
-                .userPhoneNumber(userSignUpRequest.userPhoneNumber())
-                .build();
+        User user = User.from(userSignUpRequest);
 
         User savedUser = userRepository.save(user);
-        return new UserLoginResponse(savedUser.getId());
+        return UserLoginResponse.from(savedUser);
     }
 
     public UserLoginResponse login(UserLoginRequest userLoginRequest){
@@ -47,7 +41,7 @@ public class UserService {
             throw new IllegalArgumentException("일치하는 회원이 없습니다.");
         }
 
-        return new UserLoginResponse(user.getId());
+        return UserLoginResponse.from(user);
     }
 
     public UserInfoResponse getUserInfo(Long userId){
