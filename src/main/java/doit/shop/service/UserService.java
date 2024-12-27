@@ -1,15 +1,13 @@
-package doit.shop.controller.user.service;
+package doit.shop.service;
 
-import doit.shop.controller.user.domain.User;
-import doit.shop.controller.user.domain.UserRepository;
+import doit.shop.repository.User;
+import doit.shop.repository.UserRepository;
 import doit.shop.controller.user.dto.UserInfoResponse;
 import doit.shop.controller.user.dto.UserLoginRequest;
 import doit.shop.controller.user.dto.UserLoginResponse;
 import doit.shop.controller.user.dto.UserSignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 

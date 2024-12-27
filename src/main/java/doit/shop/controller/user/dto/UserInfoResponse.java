@@ -1,6 +1,6 @@
 package doit.shop.controller.user.dto;
 
-import doit.shop.controller.user.domain.User;
+import doit.shop.repository.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 

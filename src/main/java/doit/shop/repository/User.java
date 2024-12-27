@@ -1,4 +1,4 @@
-package doit.shop.controller.user.domain;
+package doit.shop.repository;
 
 
 import jakarta.persistence.*;

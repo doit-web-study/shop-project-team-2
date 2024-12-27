@@ -4,7 +4,7 @@ import doit.shop.controller.user.dto.UserInfoResponse;
 import doit.shop.controller.user.dto.UserLoginRequest;
 import doit.shop.controller.user.dto.UserLoginResponse;
 import doit.shop.controller.user.dto.UserSignUpRequest;
-import doit.shop.controller.user.service.UserService;
+import doit.shop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

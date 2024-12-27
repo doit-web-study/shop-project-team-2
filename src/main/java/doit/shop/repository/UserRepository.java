@@ -1,5 +1,6 @@
-package doit.shop.controller.user.domain;
+package doit.shop.repository;
 
+import doit.shop.repository.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
